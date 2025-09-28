@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AniTech - Notícias de Animes e Smartphones</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Cabeçalho -->
+  <header>
+    <div class="header-content">
+      <h1>AniTech Notícias</h1>
+      <p>Notícias sobre animes e smartphones em um só lugar!</p>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#animes" onclick="filterNews('animes')">Animes</a></li>
+        <li><a href="#smartphones" onclick="filterNews('smartphones')">Smartphones</a></li>
+        <li><a href="#destaques" onclick="filterNews('destaques')">Destaques</a></li>
+      </ul>
+      <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Buscar notícias...">
+        <button onclick="searchNews()">Buscar</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="container">
+    <section id="news-container">
+      <!-- Notícias serão carregadas aqui -->
+    </section>
+  </main>
+
+  <!-- Rodapé -->
+  <footer>
+    <p>&copy; 2025 AniTech Notícias. Todos os direitos reservados.</p>
+    <p>Entre em contato: contato@anitech.com.br</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
