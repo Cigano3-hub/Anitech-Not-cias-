@@ -1,50 +1,41 @@
-// Notícias simuladas
-const noticias = [
-  {
-    id: 1,
-    titulo: "Novo arco de One Piece começa em 2025",
-    descricao: "Eiichiro Oda confirma nova temporada com arco centrado em Wano.",
-    categoria: "animes",
-    imagem: "https://via.placeholder.com/600x400?text=One+Piece"
-  },
-  {
-    id: 2,
-    titulo: "Estreia de Jujutsu Kaisen 3 com recordes",
-    descricao: "Filme bate recordes de bilheteria no Japão e chega ao Brasil em breve.",
-    categoria: "animes",
-    imagem: "https://via.placeholder.com/600x400?text=Jujutsu+Kaisen"
-  },
-  {
-    id: 3,
-    titulo: "Novo Galaxy S25 apresenta câmera de 200MP",
-    descricao: "Novo modelo da Samsung promete fotos ainda mais nítidas.",
-    categoria: "smartphones",
-    imagem: "https://via.placeholder.com/600x400?text=Galaxy+S25"
-  },
-  {
-    id: 4,
-    titulo: "iPhone 16 pode vir com botão de ação personalizável",
-    descricao: "Apple testa nova funcionalidade para personalização do hardware.",
-    categoria: "smartphones",
-    imagem: "https://via.placeholder.com/600x400?text=iPhone+16"
-  },
-  {
-    id: 5,
-    titulo: "Demon Slayer: Kimetsu no Yaiba retorna com nova temporada",
-    descricao: "Staff anuncia nova temporada para 2025 com arco do Trem Infinito.",
-    categoria: "animes",
-    imagem: "https://via.placeholder.com/600x400?text=Demon+Slayer"
-  },
-  {
-    id: 6,
-    titulo: "Xiaomi lança smartphone com carregamento sem fio de 120W",
-    descricao: "Modelo é prometido para o mercado asiático em breve.",
-    categoria: "smartphones",
-    imagem: "https://via.placeholder.com/600x400?text=Xiaomi+120W"
-  }
-];
+const API_KEY = '9fb3ffa659b84277bc95253c0d0718d3';
+const BASE_URL = 'https://newsapi.org/v2/everything';
 
-// Função para renderizar notícias
+async function fetchNews(query) {
+  try {
+    const response = await fetch(
+      `${BASE_URL}?q=${query}&sortBy=popularity&apiKey=${API_KEY}`
+    );
+    const data = await response.json();
+    return data.articles;
+  } catch (error) {
+    console.error("Erro ao buscar notícias:", error);
+    return [];
+  }
+}
+
+async function loadAnimeNews() {
+  const articles = await fetchNews('anime');
+  renderNews(articles.map((a, i) => ({
+    id: i,
+    titulo: a.title,
+    descricao: a.description || "Sem descrição",
+    categoria: "animes",
+    imagem: a.urlToImage || "https://via.placeholder.com/600x400"
+  })));
+}
+
+async function loadTechNews() {
+  const articles = await fetchNews('smartphone');
+  renderNews(articles.map((a, i) => ({
+    id: i + 100,
+    titulo: a.title,
+    descricao: a.description || "Sem descrição",
+    categoria: "smartphones",
+    imagem: a.urlToImage || "https://via.placeholder.com/600x400"
+  })));
+}
+
 function renderNews(newsList) {
   const container = document.getElementById("news-container");
   container.innerHTML = "";
@@ -74,27 +65,17 @@ function renderNews(newsList) {
   container.appendChild(grid);
 }
 
-// Filtrar notícias por categoria
 function filterNews(categoria) {
-  if (categoria === "destaques") {
-    renderNews(noticias);
+  if (categoria === "animes") {
+    loadAnimeNews();
+  } else if (categoria === "smartphones") {
+    loadTechNews();
   } else {
-    const filtradas = noticias.filter(n => n.categoria === categoria);
-    renderNews(filtradas);
+    // Carregar todas as notícias
+    loadAnimeNews();
   }
 }
 
-// Buscar notícias por título
-function searchNews() {
-  const input = document.getElementById("search-input").value.toLowerCase();
-  const filtradas = noticias.filter(n => 
-    n.titulo.toLowerCase().includes(input) || 
-    n.descricao.toLowerCase().includes(input)
-  );
-  renderNews(filtradas);
-}
-
-// Carregar todas as notícias ao iniciar
 window.onload = function () {
-  renderNews(noticias);
+  loadAnimeNews(); // Carregar notícias de anime por padrão
 };
