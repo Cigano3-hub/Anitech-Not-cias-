@@ -1,4 +1,4 @@
-const API_KEY = 'pub_95e4b0adafc24c5f88a45b9f788fdd93';
+const API_KEY = '95e4b0adafc24c5f88a45b9f788fdd93';
 const BASE_URL = 'https://newsapi.org/v2/everything';
 
 async function fetchNews(query) {
