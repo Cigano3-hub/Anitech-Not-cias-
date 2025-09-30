@@ -1,4 +1,4 @@
-const API_KEY = '95e4b0adafc24c5f88a45b9f788fdd93';
+const API_KEY = '9fb3ffa659b84277bc95253c0d0718d3';
 const BASE_URL = 'https://newsapi.org/v2/everything';
 
 async function fetchNews(query) {
@@ -21,7 +21,8 @@ async function loadAnimeNews() {
     titulo: a.title,
     descricao: a.description || "Sem descrição",
     categoria: "animes",
-    imagem: a.urlToImage || "https://via.placeholder.com/600x400"
+    imagem: a.urlToImage || "https://via.placeholder.com/600x400",
+    url: a.url || "#"
   })));
 }
 
@@ -32,7 +33,8 @@ async function loadTechNews() {
     titulo: a.title,
     descricao: a.description || "Sem descrição",
     categoria: "smartphones",
-    imagem: a.urlToImage || "https://via.placeholder.com/600x400"
+    imagem: a.urlToImage || "https://via.placeholder.com/600x400",
+    url: a.url || "#"
   })));
 }
 
@@ -49,14 +51,19 @@ function renderNews(newsList) {
   grid.className = "news-grid";
 
   newsList.forEach(noticia => {
-    const card = document.createElement("div");
+    const card = document.createElement("article");
     card.className = "card";
+    card.setAttribute("itemscope", "");
+    card.setAttribute("itemtype", "https://schema.org/NewsArticle");
+
     card.innerHTML = `
-      <img src="${noticia.imagem}" alt="${noticia.titulo}">
+      <a href="${noticia.url}" target="_blank" itemprop="url">
+        <img src="${noticia.imagem}" alt="${noticia.titulo}" itemprop="image">
+      </a>
       <div class="card-content">
-        <span class="category-tag">${noticia.categoria.charAt(0).toUpperCase() + noticia.categoria.slice(1)}</span>
-        <h3>${noticia.titulo}</h3>
-        <p>${noticia.descricao}</p>
+        <span class="category-tag" itemprop="genre">${noticia.categoria.charAt(0).toUpperCase() + noticia.categoria.slice(1)}</span>
+        <h3 itemprop="headline">${noticia.titulo}</h3>
+        <p itemprop="description">${noticia.descricao}</p>
       </div>
     `;
     grid.appendChild(card);
@@ -71,11 +78,10 @@ function filterNews(categoria) {
   } else if (categoria === "smartphones") {
     loadTechNews();
   } else {
-    // Carregar todas as notícias
     loadAnimeNews();
   }
 }
 
 window.onload = function () {
-  loadAnimeNews(); // Carregar notícias de anime por padrão
+  loadAnimeNews();
 };
