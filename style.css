@@ -5,30 +5,42 @@
 }
 
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f5f7fa;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4edf9 100%);
   color: #333;
+  line-height: 1.6;
 }
 
+/* Cabeçalho */
 header {
   background: linear-gradient(135deg, #2c3e50, #1a2530);
   color: white;
-  padding: 20px 0;
+  padding: 30px 0;
   text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .header-content h1 {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   margin-bottom: 10px;
+  letter-spacing: 1px;
+  font-weight: 700;
 }
 
+.header-content p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+/* Navegação */
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 15px 20px;
+  padding: 20px 20px;
+  background: rgba(0, 0, 0, 0.1);
 }
 
 nav ul {
@@ -41,92 +53,186 @@ nav a {
   color: white;
   text-decoration: none;
   font-weight: 600;
-  padding: 8px 12px;
-  border-radius: 4px;
-  transition: background 0.3s;
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
 nav a:hover {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
 }
 
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: #3498db;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+nav a:hover::after {
+  width: 80%;
+}
+
+/* Barra de busca */
 .search-bar {
   display: flex;
-  gap: 8px;
+  gap: 10px;
 }
 
 .search-bar input {
-  padding: 8px;
-  border-radius: 4px;
+  padding: 10px 15px;
+  border-radius: 8px;
   border: none;
+  width: 250px;
+  font-size: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .search-bar button {
-  padding: 8px 12px;
+  padding: 10px 18px;
   background: #3498db;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s;
 }
 
+.search-bar button:hover {
+  background: #2980b9;
+}
+
+/* Container principal */
 .container {
   max-width: 1200px;
-  margin: 20px auto;
+  margin: 30px auto;
   padding: 0 20px;
 }
 
+/* Grid de notícias */
 .news-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px;
 }
 
+/* Card de notícia */
 .card {
   background: white;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  transition: transform 0.3s;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  animation: fadeIn 0.5s ease forwards;
 }
 
 .card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .card img {
   width: 100%;
   height: 200px;
   object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.card:hover img {
+  transform: scale(1.05);
 }
 
 .card-content {
-  padding: 15px;
+  padding: 20px;
 }
 
 .category-tag {
   display: inline-block;
   background: #3498db;
   color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.8em;
-  margin-bottom: 8px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-transform: uppercase;
 }
 
 .card h3 {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   margin-bottom: 10px;
+  color: #2c3e50;
+  transition: color 0.3s;
+}
+
+.card:hover h3 {
+  color: #3498db;
 }
 
 .card p {
   color: #666;
+  font-size: 0.95rem;
 }
 
+/* Rodapé */
 footer {
   background: #2c3e50;
   color: white;
   text-align: center;
-  padding: 20px;
-  margin-top: 40px;
+  padding: 30px;
+  margin-top: 60px;
+}
+
+footer a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* Media Queries para responsividade */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .search-bar {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .search-bar input {
+    width: 100%;
+  }
+
+  .header-content h1 {
+    font-size: 2.2rem;
+  }
+
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
 }
